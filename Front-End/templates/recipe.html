@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link rel="stylesheet" type="text/css" href={{ url_for('static',filename='css/style.css') }}>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+	<title>ChefAI</title>
+</head>
+<body>
+	<!-- Navigation Bar -->
+	<div id="nav">
+		<ul>
+			<li><a href="/ingredients" style="padding-top: 6px; padding-bottom: 18px;"><img src="{{ url_for('static',filename='images/logo.png') }}" width="100px"></a></li>
+			<li><a href="/allrecipes/1">All Recipes</a></li>
+			<li><a href="/team">Team</a></li>
+			<li style="float: right; padding: 14px 15px;">Welcome Guest!</li>
+		</ul>
+	</div>
+	<!-- Navigation Bar-->
+	<div class="container">
+		<div class="page-header">
+			<h3 class="slab">{{ value['title'] }}</h3>
+		</div>
+		<h4 class="slab page-header">Ingredients</h4>
+		<ul class="open-sans">
+			{% for i in value['ingredients'] %}
+			<li>{{ i }}</li>
+			{% endfor %}
+		</ul>
+		<h4 class="slab page-header">Directions</h4>
+		<ol class="open-sans">
+			{% for i in value['directions'] %}
+			<li> {{ i }} </li>	
+			{% endfor %}	
+		</ol>
+		<a href="/cookingmode" class="btn btn-default" style="margin-left: 25px;">Cooking Mode!</a>
+		<script>
+			$.post( "/cookingmode", {
+				data: {{ value }} 
+			});
+		</script>
+		<h4 class="slab page-header">Nutritional Information</h4>
+		<ul class="open-sans">
+			<li>Fat: {{ value['fat'] }}</li>
+			<li>protein: {{ value['protein'] }}</li>
+			<li>calories: {{ value['calories'] }}</li>
+			<li>sodium: {{ value['sodium'] }}</li>
+		</ul>
+		<!-- Place this tag where you want the share button to render. -->
+
+		<!-- Place this tag after the last share tag. -->
+		<h4 class="slab page-header">Share this Recipe!</h4>
+		<!-- AddToAny BEGIN -->
+		<div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+			<a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+			<a class="a2a_button_facebook"></a>
+			<a class="a2a_button_twitter"></a>
+			<a class="a2a_button_google_plus"></a>
+			<a class="a2a_button_email"></a>
+			<a class="a2a_button_whatsapp"></a>
+		</div>
+		<script async src="https://static.addtoany.com/menu/page.js"></script>
+		<!-- AddToAny END -->
+		<br>
+	</div>
+</body>
+</html>

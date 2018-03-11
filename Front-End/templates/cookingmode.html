@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link rel="stylesheet" type="text/css" href={{ url_for('static',filename='css/style.css') }}>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+	<title>ChefAI</title>
+</head>
+<body>
+	<!-- Navigation Bar -->
+	<div id="nav">
+		<ul>
+			<li><a href="/ingredients" style="padding-top: 6px; padding-bottom: 18px;"><img src="{{ url_for('static',filename='images/logo.png') }}" width="100px"></a></li>
+			<li><a href="/allrecipes/1">All Recipes</a></li>
+			<li><a href="/team">Team</a></li>
+			<li style="float: right; padding: 14px 15px;">Welcome Guest!</li>
+		</ul>
+	</div>
+	<!-- Navigation Bar-->
+	<div class="container">
+		<div class="page-header">
+			<h3 class="slab">{{ value['title'] }}</h3>
+		</div>
+
+		<h4 class="slab page-header">Directions</h4>
+		<ol class="open-sans">
+			{% for i in value['directions'] %}
+			<li> {{ i }} </li>	
+			{% endfor %}	
+		</ol>
+		<br>
+	</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link rel="stylesheet" type="text/css" href="../static/css/style.css">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+	<title>ChefAI</title>
+</head>
+<body style="font-family: 'Roboto Slab', serif;">
+	<!-- Navigation Bar -->
+	<div id="nav">
+		<ul>
+			<li><a href="/ingredients" style="padding-top: 6px; padding-bottom: 18px;"><img src="../static/images/logo.png" width="100px"></a></li>
+			<li><a href="/allrecipes/1">All Recipes</a></li>
+			<li><a href="/team">Team</a></li>
+			<li style="float: right; padding: 14px 15px;">Welcome Guest!</li>
+		</ul>
+	</div>
+	<!-- Navigation Bar-->
+
+	<!--
+	<form action="/allrecipes/1" method="POST">
+		<div class="radio">
+			<label><input type="radio" name="1" value="protein">protein</label>
+		</div>
+		<div class="radio">
+			<label><input type="radio" name="1" value="sodium">sodium</label>
+		</div>
+		<div class="radio">
+			<label><input type="radio" name="1" value="calorie">calorie</label>
+		</div>
+		<div class="radio">
+			<label><input type="radio" name="1" value="fat">fat</label>
+		</div>
+
+		<div class="radio">
+			<label><input type="radio" name="2" value="Asc">Asc</label>
+		</div>
+		<div class="radio">
+			<label><input type="radio" name="2" value="Desc">Desc</label>
+		</div>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</form>
+-->
+<div class="container">
+<div class="list-group">
+	<ul class="pager list-group-item list-group-item-action" style="background-color: #e84e4e;">
+		<li style="float: left; font-size: 15px; margin-top: 4px; margin-bottom: auto; color: white;"> All Recipes </li>
+		<li style="float: right; padding: 0 5px;"><a href="/allrecipes/{{page_cnt + 1}}">Next</a></li>
+		<li style="float: right;"><a href="/allrecipes/{{page_cnt - 1}}">Previous</a></li>
+
+	</ul>
+	{% for recipe in value %}
+	<button type="button" onclick="location.href ='/recipe/{{ page_cnt }}/{{ loop.index-1 }}';" class="list-group-item list-group-item-action">
+		<p style="font-size: 15px; margin-top: 4px; margin-bottom: auto; color: black;">{{ recipe }}</p>
+	</button>
+	{% endfor %}
+</div>
+<div style="padding-left: 15px;">
+<h4 style="float: left; padding-right: 10px;">Sort By:</h4>
+<form action="/allrecipes/1" method="POST">
+	<select name="sort_by" style="float: left; margin-top: 6px; margin-bottom: auto;">
+		<option value="original" 
+		{% if sortval == "original" %}
+		selected="selected" 
+		{% endif %}
+		>original</option>
+		<option value="protein"
+		{% if sortval == "protein" %}
+		selected="selected" 
+		{% endif %}
+		>protein</option>
+		<option value="sodium"
+		{% if sortval == "sodium" %}
+		selected="selected" 
+		{% endif %}
+		>sodium</option>
+		<option value="calorie"
+		{% if sortval == "calorie" %}
+		selected="selected" 
+		{% endif %}
+		>calorie</option>
+		<option value="fat"
+		{% if sortval == "fat" %}
+		selected="selected" 
+		{% endif %}
+		>fat</option>
+	</select>
+	<h4 style="float: left; padding:0 10px;">Order:</h4>
+	<select name="order">
+		<option value="Asc"
+		{% if orderval == "0" %}
+		selected="selected" 
+		{% endif %}
+		>Asc</option>
+		<option value="Desc"
+		{% if orderval == "1" %}
+		selected="selected" 
+		{% endif %}
+		>Desc</option>
+	</select>
+	<button type="submit" class="btn btn-default" style="margin-left: 10px;">Submit</button>
+</form>
+</div>
+</div>
+</body>
+</html>

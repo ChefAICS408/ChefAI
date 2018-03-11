@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../static/css/tags.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/style.css">
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/tags.js"></script>
+	<script type="text/javascript" src="../static/js/autofill.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+	<script>
+		$(function() {
+
+			var items = [];
+			$.ajax({
+				async: false,
+				type: 'GET',
+				url: "../static/assets/parsed_ingredients.txt",
+				success: function(data) {
+					items = data.split("\n");
+					
+				}
+			});
+			
+			$("#testInput1").tags({
+				requireData: true,
+				unique: true
+			}).autofill({
+				data: items
+			});
+
+			$("#testInput2").tags({
+				requireData: true,
+				unique: true
+			}).autofill({
+				data: items
+			});
+
+		});
+	</script>
+	<title>ChefAI</title>
+</head>
+<body>
+	<!-- Navigation Bar -->
+	<div id="nav">
+		<ul>
+			<li><a href="/ingredients" style="padding-top: 6px; padding-bottom: 18px;"><img src="../static/images/logo.png" width="100px"></a></li>
+			<li><a href="/allrecipes/1">All Recipes</a></li>
+			<li><a href="/team">Team</a></li>
+			<li style="float: right; padding: 14px 15px;">Welcome Guest!</li>
+		</ul>
+	</div>
+	<!-- Navigation Bar-->
+	<div class="center">
+		<img class="center-img" style="margin-top: 10%;" src="../static/images/logo.png">
+		<form method="POST" class="center" action="/newrecipe">
+			<input name="ingredients_include" type="text" id="testInput1" value="egg">
+			<input name="ingredients_exclude" type="text" id="testInput2">
+			<h4 style="float: left; font-family: 'Roboto Slab', serif; padding: 10px;">Toggle ML Generated Recipe</h4>
+			<label class="switch" style="float: left; margin: 10px;">
+				<input name="toggle" type="checkbox" checked>
+				<span class="slider round"></span>
+			</label>
+			<input style="float: right;font-family: 'Roboto Slab', serif" type="submit" class="button" value="Submit Ingredients">
+
+		</form>
+	</div>
+</body>
+</html>
