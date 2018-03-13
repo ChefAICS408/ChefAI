@@ -14,9 +14,11 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+
 	<title>ChefAI</title>
 </head>
-<body>
+<body style="background-color: #0c0f14;">
 	<!-- Navigation Bar -->
 	<div id="nav">
 		<ul>
@@ -28,17 +30,39 @@
 	</div>
 	<!-- Navigation Bar-->
 	<div class="container">
-		<div class="page-header">
-			<h3 class="slab">{{ value['title'] }}</h3>
-		</div>
-
-		<h4 class="slab page-header">Directions</h4>
-		<ol class="open-sans">
-			{% for i in value['directions'] %}
-			<li> {{ i }} </li>	
-			{% endfor %}	
-		</ol>
 		<br>
+		<a href="#" class="next btn btn-default" style="margin-left: 25px; float: right;">Next</a>
+		<a href="#" class="prev btn btn-default" style="margin-left: 25px; float: right;">Prev</a>
+		<br>
+		<br>
+		<br>
+		<ol class="list" style="color: #d5dfef; font-family: 'Roboto', sans-serif;">
+			{% for i in value['directions'] %}
+			<li style="display: none; font-size: 1.5em; padding-bottom: 10px;"> {{ i }} </li>
+			{% endfor %}
+			<li style="display: none; font-size: 1.5em; padding-bottom: 10px;"> Ready! </li>
+		</ol>
 	</div>
+	<script>
+		$('ol.list li:eq(0)').fadeIn("slow");
+		var cnt = 0;
+		$('.next').click(function() {
+			var n = $( 'ol li' ).length;
+			console.log(n)
+			if(cnt == n - 1){
+				return;
+			}
+			cnt = cnt + 1;
+			console.log(cnt);
+    		$('ol.list li:eq('+cnt+')').fadeIn("slow");
+		});
+		$('.prev').click(function() {
+			if(cnt == 0){
+				return
+			}
+    		$('ol.list li:eq('+cnt+')').fadeOut("slow");
+    		cnt = cnt - 1;
+		});
+	</script>
 </body>
 </html>

@@ -1,9 +1,14 @@
 import main
-from flask import Flask, Response, request, render_template, url_for, redirect
+from flask import Flask, Response, request, render_template, url_for, redirect, session
 import requests
 import json
-from google.oauth2 import id_token
-from google.auth.transport import requests
+from IPython.display import HTML
+from azure.cognitiveservices.search.imagesearch import ImageSearchAPI
+from azure.cognitiveservices.search.imagesearch.models import ImageType, ImageAspect, ImageInsightModule
+from msrest.authentication import CognitiveServicesCredentials
+
+#from google.oauth2 import id_token
+#from google.auth.transport import requests
 
 app = Flask(__name__)
 
@@ -16,7 +21,7 @@ def login():
 	print("final")
 	token = request.form['idtoken']
 	try:
-	# Specify the CLIENT_ID of the app that accesses the backend:
+		# Specify the CLIENT_ID of the app that accesses the backend:
 		idinfo = id_token.verify_oauth2_token(token, requests.Request(), '339501366292-490ah4i6iib1j41b1skc878vib70nd0t.apps.googleusercontent.com')
 
 		# Or, if multiple clients access the backend server:
@@ -35,8 +40,8 @@ def login():
 		userid = idinfo['sub']
 	except ValueError:
 		# Invalid token
-			pass
-	return "ee"
+		pass
+	return redirect(url_for('ingredients'))
 
 @app.route("/ingredients", methods = ['GET','POST'])
 def ingredients():
@@ -92,26 +97,30 @@ def allrecipes_post():
 def recipe(page_cnt, recipe_id):
 
 	dict = obj.getRecipe(page_cnt,recipe_id, obj.sortby)
-	subscription_key = "c741ec48817b42b297565fb499cccc39"
-	assert subscription_key
-	search_url = "https://api.cognitive.microsoft.com/bing/v7.0/search"
-	search_term = dict['title']
-	headers = {"Ocp-Apim-Subscription-Key" : subscription_key}
-	params  = {"q": search_term, "textDecorations":True, "textFormat":"HTML"}
-	response = requests.get(search_url, headers=headers, params=params)
-	response.raise_for_status()
-	search_results = response.json()
-	search_url = search_results['images']['value'][0]['contentUrl']
-	print(search_url)
+	session['recipe_dict'] = dict
+	subscription_key = "021602f9aea34fd1987400057e71fb9e"
+	client = ImageSearchAPI(CognitiveServicesCredentials(subscription_key))
+	image_results = client.images.search(
+        query= dict['title'],
+        image_type=ImageType.photo, # Could be the str "AnimatedGif"
+        aspect=ImageAspect.wide # Could be the str "Wide"
+    )
+
+	if image_results.value:
+		first_image_result = image_results.value[0]
+	else:
+		print("Couldn't find image results!")
+		#print(search_url)
 	if(len(dict) == 0):
 		return None
-	return render_template("recipe.html", value=dict, search = search_url)
+	return render_template("recipe.html", value=dict, search = first_image_result.content_url)
 
-@app.route("/cookingmode", methods = ['GET','POST'])
+@app.route("/cookingmode")
 def cookingmode():
-	recipe = request.form['data']
-	print(recipe)
+	dict = session.get('recipe_dict', None)
+	return render_template("cookingmode.html", value = dict)
 
 if __name__ == '__main__':
 	obj = main.ML()
+	app.config["SECRET_KEY"] = "ITSASECRET"
 	app.run(debug=True,host="localhost")

@@ -45,11 +45,6 @@
 			{% endfor %}	
 		</ol>
 		<a href="/cookingmode" class="btn btn-default" style="margin-left: 25px;">Cooking Mode!</a>
-		<script>
-			$.post( "/cookingmode", {
-				data: {{ value }} 
-			});
-		</script>
 		<h4 class="slab page-header">Nutritional Information</h4>
 		<ul class="open-sans">
 			<li>Fat: {{ value['fat'] }}</li>
