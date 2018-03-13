@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="339501366292-490ah4i6iib1j41b1skc878vib70nd0t.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-	<link rel="stylesheet" type="text/css" href="../static/css/login_style.css">
-	<!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" type="text/css" href="../static/css/login_style.css">
+  <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   <!-- jQuery library -->
@@ -11,28 +14,8 @@
 
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <meta name="google-signin-client_id" content="147918694056-1nqf8gt3fi3t1l63fkkqdabtf1mcodgm.apps.googleusercontent.com">
-  <script>
-    function onSignIn(googleUser) {
-     var profile = googleUser.getBasicProfile();
-  			console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  			console.log('Name: ' + profile.getName());
-  			console.log('Image URL: ' + profile.getImageUrl());
-  			console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/ingredients');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
-          console.log('Signed in as: ' + xhr.responseText);
-        };
-        xhr.send('idtoken=' + id_token);
-        console.log("aagaya bhai")
-      }
-    </script>
-    <title>ChefAI</title>
+
+  <title>ChefAI</title>
   </head>
   <body>
     <!--
@@ -57,9 +40,33 @@
     </form>
     <form class="login-form">
       <img src="../static/images/logo.png" width="200px" style="margin-bottom: 30px;">
-      <div class="g-signin2 button" data-onsuccess="onSignIn" style="width: 270px; height: 50px; margin-bottom: 15px;"></div>
-      <a href="/ingredients"><div class="log-in-btn"> Log in </div></a>
+      <!-- <div class="g-signin2 button" data-onsuccess="onSignIn" style="width: 270px; height: 50px; margin-bottom: 15px;"></div>
+      -->
+      <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <script>
+      function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
 
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/login');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+        console.log('Signed in as: ' + xhr.responseText);
+        };
+        xhr.send('idtoken=' + id_token);
+      };
+    </script>
+      <a href="/ingredients"><div class="log-in-btn"> Log in </div></a>
     </form>
   </div>
 </div>

@@ -1,6 +1,9 @@
 import main
 from flask import Flask, Response, request, render_template, url_for, redirect
+import requests
 import json
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 app = Flask(__name__)
 
@@ -8,8 +11,36 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
+@app.route("/login", methods = ['GET','POST'])
+def login():
+	print("final")
+	token = request.form['idtoken']
+	try:
+	# Specify the CLIENT_ID of the app that accesses the backend:
+		idinfo = id_token.verify_oauth2_token(token, requests.Request(), '339501366292-490ah4i6iib1j41b1skc878vib70nd0t.apps.googleusercontent.com')
+
+		# Or, if multiple clients access the backend server:
+		# idinfo = id_token.verify_oauth2_token(token, requests.Request())
+		# if idinfo['aud'] not in [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]:
+		#     raise ValueError('Could not verify audience.')
+
+		if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+			raise ValueError('Wrong issuer.')
+
+		# If auth request is from a G Suite domain:
+		# if idinfo['hd'] != GSUITE_DOMAIN_NAME:
+		#     raise ValueError('Wrong hosted domain.')
+
+		# ID token is valid. Get the user's Google Account ID from the decoded token.
+		userid = idinfo['sub']
+	except ValueError:
+		# Invalid token
+			pass
+	return "ee"
+
 @app.route("/ingredients", methods = ['GET','POST'])
 def ingredients():
+	print("idhar")
 	if(request.method == "GET"):
 		name = "Guest"
 	else:
@@ -59,10 +90,22 @@ def allrecipes_post():
 
 @app.route("/recipe/<int:page_cnt>/<int:recipe_id>")
 def recipe(page_cnt, recipe_id):
+
 	dict = obj.getRecipe(page_cnt,recipe_id, obj.sortby)
+	subscription_key = "c741ec48817b42b297565fb499cccc39"
+	assert subscription_key
+	search_url = "https://api.cognitive.microsoft.com/bing/v7.0/search"
+	search_term = dict['title']
+	headers = {"Ocp-Apim-Subscription-Key" : subscription_key}
+	params  = {"q": search_term, "textDecorations":True, "textFormat":"HTML"}
+	response = requests.get(search_url, headers=headers, params=params)
+	response.raise_for_status()
+	search_results = response.json()
+	search_url = search_results['images']['value'][0]['contentUrl']
+	print(search_url)
 	if(len(dict) == 0):
 		return None
-	return render_template("recipe.html", value=dict)
+	return render_template("recipe.html", value=dict, search = search_url)
 
 @app.route("/cookingmode", methods = ['GET','POST'])
 def cookingmode():
