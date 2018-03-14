@@ -13,10 +13,10 @@ class ML:
             self.titles = pickle.load(fp)
         with open("./static/assets/protein.list", "rb") as fp:
             self.proteins = pickle.load(fp)
-        # with open("./static/assets/calories.list", "rb") as fp:
-        #     self.calories = pickle.load(fp)
-        # with open("./static/assets/sodium.list", "rb") as fp:
-        #     self.sodium = pickle.load(fp)
+        with open("./static/assets/calorie.list", "rb") as fp:
+            self.calories = pickle.load(fp)
+        with open("./static/assets/sodium.list", "rb") as fp:
+            self.sodium = pickle.load(fp)
         with open("./static/assets/fat.list", "rb") as fp:
             self.fat = pickle.load(fp)
         self.all_recipe_start = 0
@@ -98,11 +98,9 @@ class ML:
 
     def get10recipes(self, parameter, content, order):
 
-        print("STTTTAAARRRRTT")
         print(parameter)
         print(content)
         print(order)
-        print("EEEENNNNDDDDDD")
 
         self.all_recipe_start = self.all_recipe_threshold*(parameter-1)
 
@@ -139,7 +137,7 @@ class ML:
 
 
     def onClickSubmit(self, toInclude, toExclude, computer_generated):
-        return self.data[cluster.findRecipe(toInclude)]
+        return self.data[cluster.findRecipe(toInclude)], ["onion"]
 
 
 

@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="../static/js/autofill.js"></script>
 
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
-
+	<meta name="google-signin-client_id" content="339501366292-490ah4i6iib1j41b1skc878vib70nd0t.apps.googleusercontent.com">
 	<script>
 		$(function() {
 
@@ -25,7 +25,7 @@
 			$.ajax({
 				async: false,
 				type: 'GET',
-				url: "../static/assets/parsed_ingredients.txt",
+				url: "../static/assets/parsed_ingredients_new.txt",
 				success: function(data) {
 					items = data.split("\n");
 					
@@ -48,6 +48,20 @@
 
 		});
 	</script>
+	<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+      window.location = "/logout";
+    });
+  }
+  function onLoad() {
+      gapi.load('auth2', function() {
+        gapi.auth2.init();
+      });
+    }
+</script>
 	<title>ChefAI</title>
 </head>
 <body>
@@ -56,24 +70,33 @@
 		<ul>
 			<li><a href="/ingredients" style="padding-top: 6px; padding-bottom: 18px;"><img src="../static/images/logo.png" width="100px"></a></li>
 			<li><a href="/allrecipes/1">All Recipes</a></li>
-			<li><a href="/team">Team</a></li>
-			<li style="float: right; padding: 14px 15px;">Welcome Guest!</li>
+			<li style="float: right;"><a href="#" onclick="signOut();">Sign out</a></li>
+			<li style="float: right; padding: 14px 15px;">Welcome {{ name }}!</li>
 		</ul>
 	</div>
 	<!-- Navigation Bar-->
 	<div class="center">
-		<img class="center-img" style="margin-top: 10%;" src="../static/images/logo.png">
+		<img class="center-img" style="margin-top: 5%; margin-bottom: 30px;" src="../static/images/logo.png">
 		<form method="POST" class="center" action="/newrecipe">
-			<input name="ingredients_include" type="text" id="testInput1" value="egg">
+			<h4 class="slab">Enter ingredients to include in your recipe</h4>
+			<input name="ingredients_include" type="text" id="testInput1"></a>
+			<br>
+			<h4 class="slab">Enter ingredients to exclude from your recipe</h4>
 			<input name="ingredients_exclude" type="text" id="testInput2">
 			<h4 style="float: left; font-family: 'Roboto Slab', serif; padding: 10px;">Toggle ML Generated Recipe</h4>
 			<label class="switch" style="float: left; margin: 10px;">
-				<input name="toggle" type="checkbox" checked>
+				<input class="switch" style="float: left; margin: 10px;" name="toggle" type="checkbox" checked>
 				<span class="slider round"></span>
 			</label>
 			<input style="float: right;font-family: 'Roboto Slab', serif" type="submit" class="button" value="Submit Ingredients">
 
 		</form>
 	</div>
+	<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+	<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
 </body>
 </html>

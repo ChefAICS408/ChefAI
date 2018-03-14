@@ -16,7 +16,24 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
 
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<meta name="google-signin-client_id" content="339501366292-490ah4i6iib1j41b1skc878vib70nd0t.apps.googleusercontent.com">
 	<title>ChefAI</title>
+	<script>
+		function signOut() {
+			console.log("aaya")
+			var auth2 = gapi.auth2.getAuthInstance();
+			auth2.signOut().then(function () {
+				console.log('User signed out.');
+				window.location = "/logout";
+			});
+		}
+		function onLoad() {
+			gapi.load('auth2', function() {
+				gapi.auth2.init();
+			});
+		}
+	</script>
 </head>
 <body style="background-color: #0c0f14;">
 	<!-- Navigation Bar -->
@@ -24,8 +41,8 @@
 		<ul>
 			<li><a href="/ingredients" style="padding-top: 6px; padding-bottom: 18px;"><img src="{{ url_for('static',filename='images/logo.png') }}" width="100px"></a></li>
 			<li><a href="/allrecipes/1">All Recipes</a></li>
-			<li><a href="/team">Team</a></li>
-			<li style="float: right; padding: 14px 15px;">Welcome Guest!</li>
+			<li style="float: right;"><a href="#" onclick="signOut();">Sign out</a></li>
+			<li style="float: right; padding: 14px 15px;">Welcome {{ name }}!</li>
 		</ul>
 	</div>
 	<!-- Navigation Bar-->
@@ -54,15 +71,16 @@
 			}
 			cnt = cnt + 1;
 			console.log(cnt);
-    		$('ol.list li:eq('+cnt+')').fadeIn("slow");
+			$('ol.list li:eq('+cnt+')').fadeIn("slow");
 		});
 		$('.prev').click(function() {
 			if(cnt == 0){
 				return
 			}
-    		$('ol.list li:eq('+cnt+')').fadeOut("slow");
-    		cnt = cnt - 1;
+			$('ol.list li:eq('+cnt+')').fadeOut("slow");
+			cnt = cnt - 1;
 		});
 	</script>
+	<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 </body>
 </html>
