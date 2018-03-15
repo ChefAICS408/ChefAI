@@ -65,6 +65,8 @@ def ingredients_post():
 		togglestr = "off"
 	list1 = list1.split(",")
 	list2 = list2.split(",")
+	if(len(list1) < 3):
+		return render_template("ingredients.html", name = session['name'], error = True)
 	if(togglestr == 'on'):
 		togglebool = True
 	else:

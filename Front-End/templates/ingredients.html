@@ -89,6 +89,9 @@
 				<span class="slider round"></span>
 			</label>
 			<input style="float: right;font-family: 'Roboto Slab', serif" type="submit" class="button" value="Submit Ingredients">
+			{% if error == True%}
+			<p style="color: red; clear: left; margin-left: 10px;">Please enter atleast 3 ingredients!</p>
+			{% endif %}
 
 		</form>
 	</div>
