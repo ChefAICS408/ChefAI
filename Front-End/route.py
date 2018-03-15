@@ -36,9 +36,11 @@ def login():
 
 		# ID token is valid. Get the user's Google Account ID from the decoded token.
 		userid = idinfo['sub']
+		print("HEREHREHRHERHERHEHREHR")
 		session['name'] = idinfo['name']
 	except ValueError:
 		# Invalid token
+		print("ERRRRRROOOOOORRRRRRRRRr")
 		pass
 	return render_template("ingredients.html", name = session['name'])
 
@@ -49,6 +51,8 @@ def logout():
 
 @app.route("/ingredients")
 def ingredients():
+		if 'name' not in session:
+			session['name'] = "Guest"
 		return render_template("ingredients.html", name = session['name'])
 
 @app.route("/newrecipe", methods = ['POST'])
@@ -67,7 +71,8 @@ def ingredients_post():
 		togglebool = False
 	dict, included = obj.onClickSubmit(list1,list2,togglebool)
 	if dict is None:
-		return render_template("recipe.html", value=dict, search = first_image_result.content_url, name = session['name'], error = True, newrecipe = True)
+		return render_template("recipe.html", name = session['name'], error = True, newrecipe = True)
+	session['recipe_dict'] = dict
 	subscription_key = "021602f9aea34fd1987400057e71fb9e"
 	client = ImageSearchAPI(CognitiveServicesCredentials(subscription_key))
 	image_results = client.images.search(
@@ -83,7 +88,7 @@ def ingredients_post():
 		#print(search_url)
 	if(len(dict) == 0):
 		return None
-	return render_template("recipe.html", value=dict, search = first_image_result.content_url, name = session['name'], include_list = included, list_1 = list1, newrecipe = True, include_len = len(included), list_len = len(list1))
+	return render_template("recipe.html", value=dict, search = first_image_result.content_url, name = session['name'], include_list = included, list_1 = list1, newrecipe = True, include_len = len(included), list_len = len(list1), toggle = togglebool)
 
 
 @app.route("/allrecipes/<int:page>")

@@ -4,7 +4,6 @@ import numpy as np
 import pandas
 import pickle
 from sklearn.decomposition import PCA
-import random
 from scipy import spatial
 
 
@@ -74,14 +73,14 @@ def scoreVector(vector, z):
             score += z[vector[i]][vector[j]]
             print(str(vector[i]) + " + " + str(vector[j]) + " = " + str(z[vector[i]][vector[j]]))
 
-    return score / (float(len(vector)) - 1)
+    return (score / (float(len(vector)) - 1))
 
 
 
 
 def findIngredientSubset(orig_vector, to_consider, z, depth):
 
-    if depth == 5:
+    if depth == len(orig_vector):
         score = scoreVector(to_consider, z)
         print("score = " + str(score) + " vec = " + str(to_consider))
         return score, to_consider
@@ -98,7 +97,7 @@ def findIngredientSubset(orig_vector, to_consider, z, depth):
 
 
 
-def findClosestRecipe(final, data):
+def findClosestRecipe(final, data, toExlude, orig_vec):
 
     to_consier = []
 
@@ -112,13 +111,29 @@ def findClosestRecipe(final, data):
             to_consier.append(i)
 
     print(to_consier)
-    return to_consier[0]
+    to_remove = []
+    for i in to_consier:
+        for j in toExlude:
+            if data[i][j] == 1:
+                to_remove.append(i)
+
+    #to_consier = to_consier.remove(to_remove)
+    to_consier = [x for x in to_consier if x not in to_remove]
+    print(to_consier)
+    if len(to_consier) != 0:
+        best = -1
+        best_idx = -1
+        for i in to_consier:
+            result = 1 - spatial.distance.cosine(orig_vec, data[i])
+            if best < result:
+                best_idx = i
+        return best_idx
+    return None
 
 
 
 
-
-def findRecipe(to_include):
+def findRecipe(to_include, to_exclude):
 
     data = pandas.read_csv("static/assets/new_ingredient_vectors.csv", header=None)
     data = np.asarray(data)
@@ -164,7 +179,14 @@ def findRecipe(to_include):
     for i in to_include:
         test_ingredients.append(list(headers).index(i))
 
-    print(test_ingredients)
+    print(to_exclude)
+    toExclude = []
+    for i in to_exclude:
+        if i == "":
+            continue
+        toExclude.append(list(headers).index(i))
+
+    print(toExclude)
 
     final_ingredietns = []
     '''
@@ -224,7 +246,7 @@ def findRecipe(to_include):
 
     #print(new_vector.shape)
 
-    for i in final_ingredietns:
+    for i in test_ingredients:
         new_vector[i] = 1
         #toLook = clusters[i]
         #for j in toLook:
@@ -237,18 +259,20 @@ def findRecipe(to_include):
         ingr = pickle.load(fp)
 
 
-    recipe = findClosestRecipe(final_ingredietns, data.T)
+    recipe = findClosestRecipe(final_ingredietns, data.T, toExclude, new_vector)
 
     #recipe = findClosestVector(new_vector, data.T, clusters)
     indx = recipe
+    '''
     print(recipe)
 
     itpingr = ingr[recipe]
     recipe = titles[recipe]
     print(recipe)
     print(itpingr)
-
-    return indx
+    '''
+    final_included = [headers[x] for x in final_ingredietns]
+    return indx, final_included
 
 
 

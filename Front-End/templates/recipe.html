@@ -48,11 +48,11 @@
 	<div class="container">
 		{% if newrecipe == True %}
 			{% if error == True%}
-				<div class="panel panel-danger">
+				<div class="panel panel-danger" style="margin-top: 20px;">
       				<div class="panel-heading">Error!</div>
      				 <div class="panel-body">No Recipe found.</div>
     			</div>
-			{% endif %}
+			{% else %}
 			<div class="panel panel-info" style="margin-top: 15px;">
       			<div class="panel-heading">Ingredients chosen: 
       			{% for i in range(list_len)%}
@@ -73,6 +73,7 @@
       			{% endfor %}
      			</div>
    			</div>
+			{% endif %}
 		{% endif %}
 		{% if error != True %}
 		<div class="page-header">
@@ -92,6 +93,7 @@
 			{% endfor %}	
 		</ol>
 		<a href="/cookingmode" class="btn btn-default" style="margin-left: 25px;">Cooking Mode!</a>
+		{% if  newrecipe == False or toggle == False%}
 		<h4 class="slab page-header">Nutritional Information</h4>
 		<ul class="open-sans">
 			<li>Fat: {{ value['fat'] }}</li>
@@ -116,6 +118,10 @@
 		<!-- AddToAny END -->
 		<br>
 	</div>
+	{% else %}
+	<div style="margin-bottom: 50px;">
+	</div>
+	{% endif %}
 	{% endif %}
 	<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 </body>

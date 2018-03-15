@@ -2,6 +2,7 @@ import cluster
 import json
 import pickle
 import numpy as np
+import actionverbingr
 
 
 class ML:
@@ -137,7 +138,14 @@ class ML:
 
 
     def onClickSubmit(self, toInclude, toExclude, computer_generated):
-        return self.data[cluster.findRecipe(toInclude)], ["onion"]
+        if computer_generated:
+            return actionverbingr.computerGenerated(toInclude)
+        else:
+            i, l = cluster.findRecipe(toInclude, toExclude)
+            if i == None:
+                return None, l
+            else:
+                return self.data[i], l
 
 
 
