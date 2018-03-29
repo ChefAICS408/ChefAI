@@ -71,6 +71,7 @@
 						console.log(val);
 						console.log(bg.value.length);
 						opts.data.forEach(function(term) {
+							val = val.toLowerCase();
 							rx = new RegExp("^" + val);
 							if(rx.test(term)) {
 

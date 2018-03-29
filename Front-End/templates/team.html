@@ -14,28 +14,27 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
-
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 	<meta name="google-signin-client_id" content="339501366292-490ah4i6iib1j41b1skc878vib70nd0t.apps.googleusercontent.com">
+
 	<title>ChefAI</title>
 	<script>
-		function signOut() {
-			console.log("aaya")
-			var auth2 = gapi.auth2.getAuthInstance();
-			auth2.signOut().then(function () {
-				console.log('User signed out.');
-				window.location = "/logout";
-			});
-		}
-		function onLoad() {
-			gapi.load('auth2', function() {
-				gapi.auth2.init();
-			});
-		}
-	</script>
+  function signOut() {
+  	console.log("aaya")
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+      window.location = "/logout";
+    });
+  }
+  function onLoad() {
+      gapi.load('auth2', function() {
+        gapi.auth2.init();
+      });
+    }
+</script>
 </head>
-<body style="background-color: #0c0f14;">
+<body>
 	<!-- Navigation Bar -->
 	<div id="nav">
 		<ul>
@@ -48,40 +47,26 @@
 	</div>
 	<!-- Navigation Bar-->
 	<div class="container">
-		<br>
-		<a href="#" class="next btn btn-default" style="margin-left: 25px; float: right;">Next</a>
-		<a href="#" class="prev btn btn-default" style="margin-left: 25px; float: right;">Prev</a>
-		<br>
-		<br>
-		<br>
-		<ol class="list" style="color: #d5dfef; font-family: 'Roboto', sans-serif;">
-			{% for i in value['directions'] %}
-			<li style="display: none; font-size: 1.5em; padding-bottom: 10px;"> {{ i }} </li>
-			{% endfor %}
-			<li style="display: none; font-size: 1.5em; padding-bottom: 10px;"> Ready! </li>
-		</ol>
+	<h4 class="slab page-header" style="text-align: center;">Meet the Team!</h4>
+	<div class="row">
+		<div class="col-md-3">
+		<img src="../static/images/ashvin.png" style="border-radius: 100%;" width="210px;"; height="auto">
+		<h4 class="slab center">Ashvin Lohiya</h4>
+		</div>
+		<div class="col-md-3">
+			<img src="../static/images/akshat.png" style="border-radius: 100%;" width="210px;"; height="auto">
+		<h4 class="slab center">Akshat Goyal</h4>
+		</div>
+		<div class="col-md-3">
+			<img src="../static/images/vineel.jpeg" style="border-radius: 100%;" width="210px;"; height="auto">
+		<h4 class="slab center">Vineel Guntupalli</h4>
+		</div>
+		<div class="col-md-3">
+			<img src="../static/images/shreeyan.jpg" style="border-radius: 100%;" width="210px;"; height="auto">
+		<h4 class="slab center">Shreeyan Shayan</h4>
+		</div>
 	</div>
-	<script>
-		$('ol.list li:eq(0)').fadeIn("slow");
-		var cnt = 0;
-		$('.next').click(function() {
-			var n = $( 'ol li' ).length;
-			console.log(n)
-			if(cnt == n - 1){
-				return;
-			}
-			cnt = cnt + 1;
-			console.log(cnt);
-			$('ol.list li:eq('+cnt+')').fadeIn("slow");
-		});
-		$('.prev').click(function() {
-			if(cnt == 0){
-				return
-			}
-			$('ol.list li:eq('+cnt+')').fadeOut("slow");
-			cnt = cnt - 1;
-		});
-	</script>
+	</div>
 	<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 </body>
 </html>

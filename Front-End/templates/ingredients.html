@@ -70,6 +70,7 @@
 		<ul>
 			<li><a href="/ingredients" style="padding-top: 6px; padding-bottom: 18px;"><img src="../static/images/logo.png" width="100px"></a></li>
 			<li><a href="/allrecipes/1">All Recipes</a></li>
+			<li><a href="/team">Team</a></li>
 			<li style="float: right;"><a href="#" onclick="signOut();">Sign out</a></li>
 			<li style="float: right; padding: 14px 15px;">Welcome {{ name }}!</li>
 		</ul>
@@ -89,8 +90,8 @@
 				<span class="slider round"></span>
 			</label>
 			<input style="float: right;font-family: 'Roboto Slab', serif" type="submit" class="button" value="Submit Ingredients">
-			{% if error == True%}
-			<p style="color: red; clear: left; margin-left: 10px;">Please enter atleast 3 ingredients!</p>
+			{% if err_msg is not none%}
+			<p style="color: red; clear: left; margin-left: 10px;">{{ err_msg }}</p>
 			{% endif %}
 
 		</form>

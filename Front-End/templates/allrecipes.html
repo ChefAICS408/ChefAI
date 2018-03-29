@@ -38,6 +38,7 @@
 		<ul>
 			<li><a href="/ingredients" style="padding-top: 6px; padding-bottom: 18px;"><img src="../static/images/logo.png" width="100px"></a></li>
 			<li><a href="/allrecipes/1">All Recipes</a></li>
+			<li><a href="/team">Team</a></li>
 			<li style="float: right;"><a href="#" onclick="signOut();">Sign out</a></li>
 			<li style="float: right; padding: 14px 15px;">Welcome {{ name }}!</li>
 		</ul>
@@ -72,6 +73,7 @@
 	<div class="list-group">
 		<ul class="pager list-group-item list-group-item-action" style="background-color: #e84e4e;">
 			<li style="float: left; font-size: 15px; margin-top: 4px; margin-bottom: auto; color: white;"> All Recipes({{ page_cnt }})</li>
+			<li style="float: right; padding: 0 5px;"><a href="/allrecipes/1"><span class="glyphicon glyphicon-home" aria-hidden = "true"></span></a></li>
 			<li style="float: right; padding: 0 5px;"><a href="/allrecipes/{{page_cnt + 1}}">Next</a></li>
 			<li style="float: right;"><a href="/allrecipes/{{page_cnt - 1}}">Previous</a></li>
 

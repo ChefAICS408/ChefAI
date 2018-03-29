@@ -65,8 +65,13 @@ def ingredients_post():
 		togglestr = "off"
 	list1 = list1.split(",")
 	list2 = list2.split(",")
+	list_common = list(set(list1) & set(list2))
+	if(len(list_common) != 0):
+		return render_template("ingredients.html", name = session['name'], err_msg = "Error: same ingredients in both search bars!")
 	if(len(list1) < 3):
-		return render_template("ingredients.html", name = session['name'], error = True)
+		return render_template("ingredients.html", name = session['name'], err_msg = "Error: Please enter atleast 3 ingredients!")
+	if(len(list1) > 10 or len(list2) > 10):
+		return render_template("ingredients.html", name = session['name'], err_msg = "Error: Cannot enter more than 10 ingredients")
 	if(togglestr == 'on'):
 		togglebool = True
 	else:
@@ -140,6 +145,10 @@ def recipe(page_cnt, recipe_id):
 def cookingmode():
 	dict = session.get('recipe_dict', None)
 	return render_template("cookingmode.html", value = dict, name = session['name'])
+
+@app.route("/team")
+def team():
+	return render_template("team.html", name = session['name'])
 
 if __name__ == '__main__':
 	obj = main.ML()
