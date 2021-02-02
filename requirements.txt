@@ -6,7 +6,7 @@ azure-cognitiveservices-search-nspkg==2.0.0
 azure-common==1.1.8
 azure-nspkg==2.0.0
 beautifulsoup4==4.6.0
-bleach==1.5.0
+bleach==3.3.0
 bs4==0.0.1
 cachetools==2.0.1
 certifi==2017.4.17
