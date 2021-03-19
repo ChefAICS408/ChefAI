@@ -30,7 +30,7 @@ ipywidgets==5.2.2
 isodate==0.6.0
 itsdangerous==0.24
 javascript==2015.32.59
-Jinja2==2.9.5
+Jinja2==2.11.3
 jsonschema==2.6.0
 jupyter==1.0.0
 jupyter-client==5.0.0
